@@ -9,9 +9,15 @@ class Movie(models.Model):
     movie = models.CharField(max_length=25)
     date = models.DateField()
 
+    def __str__(self) -> str:
+        return self.movie
+
 class Customer(models.Model):
     name = models.CharField(max_length=25)
     mobile = models.CharField(max_length=15)
+
+    def __str__(self) -> str:
+        return self.name
 
 class Reservation(models.Model):
     customer = models.ForeignKey('Customer', related_name='reservation', on_delete= models.CASCADE)
