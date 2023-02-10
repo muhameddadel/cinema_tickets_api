@@ -20,7 +20,11 @@ from tickets import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # first way
+    # first way : json response from django without rest and model
     path('django/jsonresponsenomodel/', views.no_rest_no_model), 
+    # second way : json response from django without rest and with model 
     path('django/jsonresponsewithmodel/', views.no_rest_with_model),
+    # thrid way 3.1 : GET POST from REST framework -> function based view -> @api_view
+    path('rest/fbv_with_rest/', views.fbv_with_rest), 
+    path('rest/fbv_with_rest/<int:pk>', views.fbv_pk_with_rest), 
 ]
