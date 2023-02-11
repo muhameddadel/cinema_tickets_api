@@ -3,7 +3,7 @@ from django.http import Http404
 from django.http.response import JsonResponse
 from .models import Customer, Movie, Reservation
 from rest_framework.decorators import api_view
-from rest_framework import status, filters
+from rest_framework import status, mixins, generics,filters
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serilalizers import CustomerSeiralizer, MovieSeiralizer, ReservationSeiralizer
@@ -122,3 +122,27 @@ class CBV_Pk(APIView):
         customer = self.get_object(pk)
         customer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# fifth way - with REST framework -> Mixins -> extention of Class Based View
+# 5.1 mixins list -> GET POST
+class Mixins_list(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSeiralizer
+
+    def get(self, request):
+        return self.list(request)
+    def post(self, request):
+        return self.create(request)
+
+# 5.2 mixins get put delete
+class Mixins_pk(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSeiralizer
+
+    def get(self, request, pk):
+        return self.retrieve(request)
+    def post(self, request, pk):
+        return self.update(request)
+    def delete(self, request, pk):
+        return self.destroy(request)
+

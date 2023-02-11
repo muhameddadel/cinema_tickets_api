@@ -37,5 +37,13 @@ urlpatterns = [
     
     # fourth way 4.2 : GET, PUT and DELETE from REST framewok -> class based view -> class CBV(APIview)
     path('rest/cbv/<int:pk>', views.CBV_Pk.as_view()), 
+    
+    # fifth way 5.1 : GET, POST from REST framewok(CBV)
+    # Mixins -> class Mixins_list(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView)
+    path('rest/mixins/', views.Mixins_list.as_view()), 
+    
+    # fifth way 5.2 : GET, PUT and DELETE from REST framewok(CBV)
+    # Mixins -> class Mixins_list(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView)
+    path('rest/mixins/<int:pk>', views.Mixins_pk.as_view()), 
 
 ]
