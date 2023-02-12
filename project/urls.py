@@ -46,4 +46,10 @@ urlpatterns = [
     # Mixins -> class Mixins_list(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView)
     path('rest/mixins/<int:pk>', views.Mixins_pk.as_view()), 
 
+    # sixth way 5.1 : GET, POST from REST framewok(CBV) -> Generics
+    path('rest/generics/', views.Generics_list.as_view()), 
+
+    # sixth way 5.2 : GET, PUT and DELETE from REST framewok(CBV) -> Generics
+    path('rest/generics/<int:pk>', views.Generics_pk.as_view()), 
+
 ]
