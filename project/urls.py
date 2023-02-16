@@ -61,4 +61,10 @@ urlpatterns = [
     # seventh way 7.1 : GET, POST from REST framewok(CBV) -> Viewsets
     path('rest/viewsets/', include(router.urls)), 
 
+    # eighth way -> find movie with function based view
+    path('fbv/findmovie', views.find_movie),
+
+    # ninth way -> create reservation with function based view
+    path('fbv/createreservation', views.create_reservation)
+
 ]

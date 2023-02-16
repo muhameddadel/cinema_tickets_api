@@ -172,3 +172,27 @@ class Viewsets_movie(viewsets.ModelViewSet):
 class Viewsets_reservation(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSeiralizer
+
+# eighth way -> find movie with function based view
+@api_view(['GET'])
+def find_movie(request):
+    movies = Movie.objects.filter(hall = request.data['hall'], movie = request.data['movie'])
+    serializer = MovieSeiralizer(movies, many = True)
+
+    return Response(serializer.data)
+
+# ninth way -> create reservation with function based view
+@api_view(['POST'])
+def create_reservation(request):
+    movie = Movie.objects.get(hall = request.data['hall'], movie = request.data['movie'])
+    customer = Customer()
+    customer.name = request.data['name']
+    customer.mobile = request.data['mobile']
+    customer.save()
+
+    reservation = Reservation()
+    reservation.customer = customer
+    reservation.movie = movie
+    reservation.save()
+
+    return Response(status=status.HTTP_201_CREATED)
