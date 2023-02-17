@@ -7,6 +7,9 @@ from rest_framework import status, mixins, generics, viewsets,filters
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serilalizers import CustomerSeiralizer, MovieSeiralizer, ReservationSeiralizer
+
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 # first way - without REST and no model query FBV
@@ -152,11 +155,19 @@ class Generics_list(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSeiralizer
 
+    # authentication
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
 
 # 6.2 GET , PUT and DELETE
 class Generics_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSeiralizer
+
+    # authentication
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
 # seventh way -> Viewsets 
 class Viewsets_customer(viewsets.ModelViewSet):

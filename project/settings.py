@@ -42,7 +42,18 @@ INSTALLED_APPS = [
     'tickets',
 ]
 
-REST_FRAMEWORK = {}
+REST_FRAMEWORK = {
+    # 1 - Global settings
+    # 'DEFAULT_AUTHENTICATION_CLASSES':
+    # ['rest_framework.authentication.BasicAuthentication'],
+    # 'DEFAULT_PERMISSION_CLASSES':
+    # ['rest_framework.permissions.IsAuthenticated']
+}
+# -AllowAny -> any one can access the api
+# -IsAuthenticated -> any one have a username and password can access the api
+# -IsAdminuser -> only admin user can access the api  
+# -IsAuthenticatedReadOnly -> any one have username and password can read only api 
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

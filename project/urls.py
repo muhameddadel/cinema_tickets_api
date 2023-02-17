@@ -65,6 +65,8 @@ urlpatterns = [
     path('fbv/findmovie', views.find_movie),
 
     # ninth way -> create reservation with function based view
-    path('fbv/createreservation', views.create_reservation)
+    path('fbv/createreservation', views.create_reservation),
 
+    # rest auth url 
+    path('api-auth', include('rest_framework.urls')),
 ]
