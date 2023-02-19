@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from django.http import Http404
 from django.http.response import JsonResponse
-from .models import Customer, Movie, Reservation
+from .models import Customer, Movie, Reservation, Post
 from rest_framework.decorators import api_view
 from rest_framework import status, mixins, generics, viewsets,filters
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serilalizers import CustomerSeiralizer, MovieSeiralizer, ReservationSeiralizer
+from .serilalizers import CustomerSeiralizer, MovieSeiralizer, ReservationSeiralizer, PostSerializer
 
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAuthorOrReadOnly
 # Create your views here.
 
 # first way - without REST and no model query FBV
@@ -134,8 +135,14 @@ class Mixins_list(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Gener
 
     def get(self, request):
         return self.list(request)
+    
     def post(self, request):
         return self.create(request)
+    
+    # token authentication
+    authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
+
 
 # 5.2 mixins get put delete
 class Mixins_pk(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
@@ -144,10 +151,16 @@ class Mixins_pk(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Destr
 
     def get(self, request, pk):
         return self.retrieve(request)
+    
     def post(self, request, pk):
         return self.update(request)
+    
     def delete(self, request, pk):
         return self.destroy(request)
+    
+    # token authentication
+    authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
 # sixth way -> Generics 
 # 6.1 GET and POST
@@ -155,9 +168,9 @@ class Generics_list(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSeiralizer
 
-    # authentication
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    # basic authentication
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
 
 
 # 6.2 GET , PUT and DELETE
@@ -165,9 +178,9 @@ class Generics_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSeiralizer
 
-    # authentication
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    # basic authentication
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
 
 # seventh way -> Viewsets 
 class Viewsets_customer(viewsets.ModelViewSet):
@@ -207,3 +220,9 @@ def create_reservation(request):
     reservation.save()
 
     return Response(status=status.HTTP_201_CREATED)
+
+# post author editor
+class Post_pk(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthorOrReadOnly]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer

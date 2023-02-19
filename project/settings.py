@@ -39,13 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
     'tickets',
 ]
 
 REST_FRAMEWORK = {
     # 1 - Global settings
     # 'DEFAULT_AUTHENTICATION_CLASSES':
-    # ['rest_framework.authentication.BasicAuthentication'],
+    # ['rest_framework.authentication.TokenAuthentication'],
     # 'DEFAULT_PERMISSION_CLASSES':
     # ['rest_framework.permissions.IsAuthenticated']
 }

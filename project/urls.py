@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from tickets import views
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter()
 router.register('customers', views.Viewsets_customer)
@@ -69,4 +70,10 @@ urlpatterns = [
 
     # rest auth url 
     path('api-auth', include('rest_framework.urls')),
+
+    # Token authentication
+    path('token-auth', obtain_auth_token),
+
+    # post pk generics permissions
+    path('post/generic/<int:pk>', views.Post_pk.as_view())
 ]
